@@ -1,0 +1,67 @@
+<html>
+  <head>
+  	<title>Person Information</title>
+  	<meta charset="UTF-8">	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    
+    <script>
+      $(document).ready(function(){
+
+    	 var baseurl = "http://localhost:8080/products";
+    	 var xmlhttp = new XMLHttpRequest();
+    	 xmlhttp.open("GET",baseurl,true);
+    	 xmlhttp.onreadystatechange = function(){
+    		 if(xmlhttp.readyState==4 && xmlhttp.status ==200){
+                // alert(xmlhttp.response);
+    			 var persons = JSON.parse(xmlhttp.responseText);
+    			 $("#example").DataTable({
+    				data:persons,
+    				"columns":[
+    					{"data":"id"},
+    					{"data":"name"},
+    					{"data":"code"},
+    					{"data":"price"},
+                        {"data":"stock_status"},
+                        {
+                            "mData": "Name",
+                            "mRender": function (data, type, row) {
+                                return "<a href='test.html?id="+ row.id +"'>Print Invoice</a>";
+                            }
+                        }
+    				]
+    			 });
+    		 }
+    	 };
+    	 xmlhttp.send();
+      });
+    </script>  
+  </head>
+  <body>
+    <button onclick="javascript:window.location='login.php'" style ='float:right; margin-bottom:20px;background-color: red;color: white;'>Logout</button>
+    <table id="example" class="display" style="width:100%">
+    <thead>
+	    <tr>
+	      <th>Id</th>
+	      <th>First Name</th>
+	      <th>Last Name</th>
+	      <th>Age</th>
+          <th>stock_status</th>
+          <th>Print Invoice</th>
+	    </tr>
+    </thead>
+    <!-- <tfoot>
+	    <tr>
+	      <th>Id</th>
+	      <th>First Name</th>
+	      <th>Last Name</th>
+	      <th>Age</th>
+          <th>stock_status</th>
+	    </tr>
+    </tfoot> -->
+    </table>
+  </body>
+</html>
+
+
